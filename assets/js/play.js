@@ -1,76 +1,179 @@
+var map = [
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 5, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+
+	[0, 0, 5, 5, 5, 0, 0, 0, 0, 2, 3, 0, 0, 0, 0, 0, 2, 3, 0, 0, 0, 0],
+	[0, 0, 0, 0, 2, 0, 0, 0, 5, 0, 0, 0, 0, 2, 0, 0, 0, 5, 0, 0, 0, 3],
+	[0, 0, 0, 0, 2, 3, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 2, 2, 0, 0],
+	[0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 2, 3, 0, 0, 0],
+	[0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2],
+
+	[0, 0, 5, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 2],
+	[0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 5, 0, 0, 0, 2, 2, 2, 0, 0, 5],
+	[0, 0, 0, 0, 2, 3, 2, 0, 0, 0, 5, 5, 0, 0, 0, 2, 3, 2, 0, 0, 0, 0],
+	[0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 0, 2],
+	[0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0],
+
+	[0, 0, 0, 0, 4, 0, 0, 0, 0, 5, 0, 0, 0, 3, 3, 0, 0, 0, 0, 5, 0, 0],
+	[0, 0, 0, 0, 0, 5, 0, 0, 2, 2, 0, 0, 0, 0, 5, 5, 0, 0, 0, 4, 0, 0],
+	[0, 0, 0, 0, 1, 4, 1, 0, 0, 0, 0, 1, 4, 1, 0, 0, 0, 0, 0, 1, 4, 1],
+	[0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 2, 0, 0]];
+
 Game.Play = function (game) {};
 
 Game.Play.prototype = {
 
 	create: function () {
 
-		// game.stage.backgroundColor = '#2d2d2d';
+		game.stage.backgroundColor = '#2d2d2d';
 
-	 //    tiles = game.add.group();
+			cubes = game.add.group();
+      cubes.createMultiple(20, 'cube');
 
-	 //    for (var x = 0; x < 40; x++)
-	 //    {
-	 //        var tile = tiles.create(0 + (x * 16), 300, 'tiles', 4);
-	 //        tile.body.immovable = true;
-	 //    }
+	    tiles = game.add.group();
 
-	 //    this.start = 0;
+	    for (var x = 0; x < 40; x++)
+	    {
+	        var tile = tiles.create(0 + (x * 15), h*2/3+22, 'tiles', 4);
+	        tile.body.immovable = true;
+	    }
 
-	 //    sprite = game.add.sprite(50, 150, 'mummy');
-	 //    sprite.name = 'mummy';
-	 //    sprite.body.collideWorldBounds = true;
-	 //    sprite.body.velocity.x = 40;
-	 //    sprite.body.velocity.y = 120;
-	 //    sprite.body.acceleration.y = 90; 
+	    this.start = 0;
+	    this.level = 0;
 
+	    this.player = this.game.add.sprite(80, h*1/3-20, 'mummy');
+			this.player.body.bounce.y = 0;
+			this.player.body.collideWorldBounds = true;
+	    this.player.body.velocity.x = 40;
+	    this.player.body.velocity.y = 120;
+	    this.player.body.acceleration.y = 90;
+    	this.player.anchor.setTo(0.5, 0.5);
 
- 	var mummy = game.add.sprite(300, 200, 'blood');
+    	this.labelDeath = game.add.text(100, h-35, '0', { font: '18px Arial', fill: '#fff', align: 'center' });
+    	this.labelDeath.anchor.setTo(0.5, 0.5);
+      this.labelLevel = game.add.text(w-100+0.5, h-35, '1/'+map.length, { font: '18px Arial', fill: '#fff', align: 'center' });
+	    this.labelLevel.anchor.setTo(0.5, 0.5);
+	    this.labelTuto = game.add.text(Math.floor(w/2)+0.5, h-35+0.5, 'press space to jump', { font: '18px Arial', fill: '#fff', align: 'center' });
+	    this.labelTuto.anchor.setTo(0.5, 0.5);
 
-    //  Here we add a new animation called 'walk'
-    //  Because we didn't give any other parameters it's going to make an animation from all available frames in the 'mummy' sprite sheet
-    mummy.animations.add('walk');
+	    this.emitter = game.add.emitter(0, 0, 10);
+	    this.emitter.makeParticles('blood');
+	    this.emitter.gravity = 0;
+	    this.emitter.minParticleSpeed.setTo(-200, -200);
+	    this.emitter.maxParticleSpeed.setTo(200, 200);
 
-    //  And this starts the animation playing by using its key ("walk")
-    //  30 is the frame rate (30fps)
-    //  true means it will loop when it finishes
-    mummy.animations.play('walk', 20, true);
+			this.cursor = this.game.input.keyboard.createCursorKeys();
+    	this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-
-
-		// this.cursor = this.game.input.keyboard.createCursorKeys();
-
-  //   	this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    	this.loadLevel();
 	},
 
 	update: function() {
-		// game.physics.collide(sprite, tiles, this.playerHit, null, this);
+		game.physics.collide(this.player, tiles);
 
-		// if (this.spaceKey.isDown && sprite.body.touching.down) {
-	 //        this.playerJump();
-	 //        if (this.start == 0) {
-	 //        	this.start = 1;
-	 //        	sprite.body.velocity.x = 100;
-	 //        }
-	 //    }
+		//When spacebar is held down start the game
+		if (this.spaceKey.isDown && this.player.body.touching.down) {
+        this.playerJump();
+        if (this.start == 0) {
+        	this.start = 1;
+        }
+    }
 
-	 //    if (sprite.body.touching.down && this.start == 1) { 
-	 //    	sprite.body.velocity.x = 170;
-	 //    }
-	    
-	 //    sprite.body.gravity.y = 12;
+    //Move player to the right of the screen why the game is started
+    if (this.player.body.touching.down && this.start == 1) {
+    	this.player.alive = true;
+    	this.player.body.velocity.x = 170;
+    }
 
+    //Player global gravity when jumping etc
+    this.player.body.gravity.y = 5;
 
+    //If we reach the right side of the screen restart the view
+    if (this.player.x >= w - 60)
+	    	this.loadLevel();
+
+	  //Check collision on players with obstacles(cubes)
+	  game.physics.overlap(this.player, cubes, this.playerHit, null, this);
+
+	},
+
+  loadLevel: function() {
+    if (map.length == this.level)
+      game.state.start('End');
+    else {
+      this.drawLevel(map[this.level]);
+      this.level++;
+      this.labelLevel.content = this.level + '/' + map.length;
+      this.initPlayer();
+    }
+    if (this.level == 2) this.labelTuto.content = '';
+  },
+
+	initPlayer: function() {
+		this.player.body.gravity.y = 0;
+		this.player.x = 60;
+		this.player.y = h*2/3-this.player.height/2-30;
+		this.player.body.velocity.x = 0;
+		this.player.body.velocity.y = 0;
+		this.player.angle = 0;
+		if (this.rotation) this.rotation.pause();
 	},
 
 	playerJump: function() {
-		sprite.body.velocity.y = -50;
+		this.player.body.velocity.y = -50;
 	},
 
 	playerHit: function(player, hit) {
-	    this.emitter.x = player.x+player.width/2;
-	    this.emitter.y = player.y+player.height/2;
-	    this.emitter.start(true, 500, null, 5);
-		death += 1;
+    if (this.player.alive) {
+      this.player.alive = false;
+        this.emitter.x = player.x+player.width/2;
+        this.emitter.y = player.y+player.height/2;
+        this.emitter.start(true, 300, null, 8);
+
+      death += 1;
+      this.labelDeath.content = death;
+      this.initPlayer();
+    }
 	},
+
+	drawLevel: function(maap) {
+    cubes.forEachAlive(function(cube){cube.kill();});
+
+    var cube, height;
+    for (var i = 0; i < maap.length; i++) {
+      cube = cubes.getFirstExists(false);
+
+      if (maap[i] == 1) {
+        cubes.create(100+i*cube.width, h*2/3, 'cube', 4);
+        height = 0.3;
+      }
+      else if (maap[i] == 2) {
+        cubes.create(100+i*cube.width, h*2/3, 'cube', 4);
+        height = 1;
+      }
+      else if (maap[i] == 3) {
+        cubes.create(100+i*cube.width, h*2/3,'cube', 4);
+        height = 1.5;
+      }
+      else if (maap[i] == 4) {
+        cubes.create(100+i*cube.width, h*2/3, 'cube', 4);
+        height = 1.8;
+      }
+      else if (maap[i] == 5) {
+        cubes.create(100+i*cube.width, h*2/3-22, 'cube', 4);
+        height = 0.5;
+      }
+
+      if (maap[i] != 0) {
+        cube.scale.y = 0;
+        cube.anchor.setTo(0, 1);
+        this.game.add.tween(cube.scale).to({y : height}, 300*height, Phaser.Easing.Linear.None).start();
+      }
+    }
+  }
 
 };
