@@ -38,11 +38,11 @@ Game.Play.prototype = {
 
     for (var x = 0; x < 40; x++)
     {
-        if (x == 0) { var tile = tiles.create(0 + (x * 15), h*2/3+22, 'tiles', 104); }
-        else if (x == 39) { var tile = tiles.create(0 + (x * 15), h*2/3+22, 'tiles', 106); }
-        else { var tile = tiles.create(0 + (x * 15), h*2/3+22, 'tiles', 105); }
-        
-        tile.body.immovable = true;
+	    if (x == 0) { var tile = tiles.create(0 + (x * 15), h*2/3+22, 'tiles', 104); }
+	    else if (x == 39) { var tile = tiles.create(0 + (x * 15), h*2/3+22, 'tiles', 106); }
+	    else { var tile = tiles.create(0 + (x * 15), h*2/3+22, 'tiles', 105); }
+
+	    tile.body.immovable = true;
     }
 
     this.start = 0;
