@@ -88,7 +88,7 @@ Game.Play.prototype = {
 	},
 
   render: function(){
-    game.debug.renderSpriteBody(this.player.body);
+		this.game.debug.renderPhysicsBody(this.player.body);
   },
 
 	update: function() {
@@ -100,8 +100,14 @@ Game.Play.prototype = {
 
 		//When spacebar is held down start the game
 		if (game.input.mousePointer.isDown && this.player.body.touching.down) {
+				this.player.body.setRectangle(64, 64, 64, 64);
         this.playerJump();
         this.player.animations.play('player_jump', 10, false)
+
+				//  This adjusts the collision body size to be a 100x50 box.
+		    //  50, 25 is the X and Y offset of the newly sized box.
+		    // this.player.body.setRectangle(this.player.body.width / 2);
+
         if (this.start == 0) {
         	this.start = 1;
         }
