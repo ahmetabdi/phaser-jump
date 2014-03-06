@@ -84,6 +84,8 @@ Game.Play.prototype = {
 		this.cursor = this.game.input.keyboard.createCursorKeys();
   	this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
+		this.player.body.setRectangle(44, 44, 12, 20);
+
   	this.loadLevel();
 	},
 
@@ -100,7 +102,7 @@ Game.Play.prototype = {
 
 		//When spacebar is held down start the game
 		if (game.input.mousePointer.isDown && this.player.body.touching.down) {
-				this.player.body.setRectangle(64, 64, 64, 64);
+
         this.playerJump();
         this.player.animations.play('player_jump', 10, false)
 
@@ -123,7 +125,7 @@ Game.Play.prototype = {
     }
 
     //Player global gravity when jumping etc
-    this.player.body.gravity.y = 5;
+    this.player.body.gravity.y = 100;
 
     //If we reach the right side of the screen restart the view
     if (this.player.x >= w - 50)
@@ -164,7 +166,7 @@ Game.Play.prototype = {
 	},
 
 	playerJump: function() {
-		this.player.body.velocity.y = -250;
+		this.player.body.velocity.y = -300;
 	},
 
 	playerHit: function(player, hit) {

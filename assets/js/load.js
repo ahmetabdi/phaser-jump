@@ -34,6 +34,7 @@ Game.Load.prototype = {
     game.load.spritesheet('player_idle', 'assets/sprites/player_idle.png', 64, 64, 6);
     game.load.spritesheet('player_running', 'assets/sprites/player_running.png', 64, 64, 6);
 
+
 	},
 	create: function () {
 		game.state.start('Play');
