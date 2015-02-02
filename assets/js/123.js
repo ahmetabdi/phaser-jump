@@ -1,6 +1,6 @@
 /*
   Programming and art made by www.lessmilk.com
-  You can freely look at the code below, 
+  You can freely look at the code below,
   but you are not allowed to use the code or art to make your own games
 */
 
@@ -36,36 +36,40 @@ Game.Play.prototype = {
 	create: function () {
 		this.cursor = this.game.input.keyboard.createCursorKeys();
 
+		// Player
 		this.player = this.game.add.sprite(80, h*2/3-20, 'player');
 		this.player.body.bounce.y = 0;
-    	this.player.anchor.setTo(0.5, 0.5);
+  	this.player.anchor.setTo(0.5, 0.5);
 
+  	// Cube map
 		this.cubes = game.add.group();
-	    this.cubes.createMultiple(20, 'cube');
+    this.cubes.createMultiple(20, 'cube');
 
 		this.line = this.game.add.sprite(w/2, Math.floor(h*2/3), 'line');
 		this.line.anchor.setTo(0.5, 0.5);
 		this.line.body.immovable = true;
 
+		// Audio
 		this.hit_s = game.add.audio('hit');
-	    this.jump_s = game.add.audio('jump');
+    this.jump_s = game.add.audio('jump');
 
-	    this.labelDeath = game.add.text(100, h-35, '0', { font: '18px Arial', fill: '#fff', align: 'center' });
+    // Labels
+    this.labelDeath = game.add.text(100, h-35, '0', { font: '18px Arial', fill: '#fff', align: 'center' });
 		this.labelDeath.anchor.setTo(0.5, 0.5);
-	    this.labelLevel = game.add.text(w-100+0.5, h-35, '1/'+map.length, { font: '18px Arial', fill: '#fff', align: 'center' });
+    this.labelLevel = game.add.text(w-100+0.5, h-35, '1/'+map.length, { font: '18px Arial', fill: '#fff', align: 'center' });
 		this.labelLevel.anchor.setTo(0.5, 0.5);
 		this.labelTuto = game.add.text(Math.floor(w/2)+0.5, h-35+0.5, 'press space to jump', { font: '18px Arial', fill: '#fff', align: 'center' });
 		this.labelTuto.anchor.setTo(0.5, 0.5);
 
 		this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-		this.level = 0; 
-	    this.start = 0;
+		this.level = 0;
+    this.start = 0;
 
-	    this.emitter = game.add.emitter(0, 0, 200);
-	    this.emitter.makeParticles('test');
-	    this.emitter.gravity = 0;
-	    this.emitter.minParticleSpeed.setTo(-200, -200);
-	    this.emitter.maxParticleSpeed.setTo(200, 200);
+    this.emitter = game.add.emitter(0, 0, 200);
+    this.emitter.makeParticles('test');
+    this.emitter.gravity = 0;
+    this.emitter.minParticleSpeed.setTo(-200, -200);
+    this.emitter.maxParticleSpeed.setTo(200, 200);
 
 		this.loadLevel();
 	},
@@ -73,6 +77,7 @@ Game.Play.prototype = {
 	update: function() {
 		game.physics.collide(this.player, this.line);
 
+			// Jump if the player is touching the group and space bar is pressed
 	    if (this.spaceKey.isDown && this.player.body.touching.down) {
 	        this.playerJump();
 	        if (this.start == 0) {
@@ -82,13 +87,13 @@ Game.Play.prototype = {
 	        }
 	    }
 
-	    if (this.player.body.touching.down && this.start == 1) { 
+	    if (this.player.body.touching.down && this.start == 1) {
 	    	this.player.alive = true;
 	    	this.player.body.velocity.x = 170;
 	    }
 
 
-	    if (this.player.x >= w - 60) 
+	    if (this.player.x >= w - 60)
 	    	this.loadLevel();
 
 		this.emitter.forEachAlive(function(particle)
@@ -96,7 +101,7 @@ Game.Play.prototype = {
 
 		this.player.body.gravity.y = 12;
 
-		if (this.player.y > this.line.y) 
+		if (this.player.y > this.line.y)
 			this.initPlayer();
 
 		game.physics.overlap(this.player, this.cubes, this.playerHit, null, this);
@@ -123,8 +128,8 @@ Game.Play.prototype = {
 		}
 	},
 
-	loadLevel: function() {	
-		if (map.length == this.level) 
+	loadLevel: function() {
+		if (map.length == this.level)
 			game.state.start('End');
 		else {
 			this.drawLevel(map[this.level]);
